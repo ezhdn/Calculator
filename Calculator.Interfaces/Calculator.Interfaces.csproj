@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INotation.cs" />
     <Compile Include="IExpression.cs" />
     <Compile Include="IOperation.cs" />
     <Compile Include="IOperationSelector.cs" />

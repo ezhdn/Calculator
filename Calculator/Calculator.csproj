@@ -48,6 +48,8 @@
     <Compile Include="Operations\Div.cs" />
     <Compile Include="Operations\Sub.cs" />
     <Compile Include="Operations\Mul.cs" />
+    <Compile Include="Parser\Notation.cs" />
+    <Compile Include="Parser\NumericNotation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,7 @@
       <Name>Calculator.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ExecutorTests.cs" />
     <Compile Include="ExpressionsTests.cs" />
+    <Compile Include="NotationTests.cs" />
     <Compile Include="OperationsSelectorTests.cs" />
     <Compile Include="OperationsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
