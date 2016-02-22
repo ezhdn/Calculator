@@ -20,8 +20,6 @@ namespace Calculator.Parser
     /// </summary>
     public class Notation : INotation
     {
-
-
         public virtual IExpression Parse(IEnumerator<string> expressionTokens)
         {
             throw new NotImplementedException();
@@ -32,12 +30,12 @@ namespace Calculator.Parser
             throw new NotImplementedException();
         }
 
-        public INotation MayBeOperation(string[] operators, INotation notation)
+        public INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
         {
             throw new NotImplementedException();
         }
 
-        public INotation AddUnaryOperation(string[] operators, INotation notation)
+        public INotation AddUnaryOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
         {
             throw new NotImplementedException();
         }

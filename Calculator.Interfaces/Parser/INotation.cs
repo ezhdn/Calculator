@@ -12,8 +12,8 @@ namespace Calculator.Interfaces
 
         INotation AddRule(INotation notation);
 
-        INotation MayBeOperation(string[] operators, INotation notation);
+        INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType);
 
-        INotation AddUnaryOperation(string[] operators, INotation notation);
+        INotation AddUnaryOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType);
     }
 }

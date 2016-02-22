@@ -39,13 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INotation.cs" />
-    <Compile Include="IExpression.cs" />
-    <Compile Include="IOperation.cs" />
+    <Compile Include="Enums\ExpressionRepeatType.cs" />
+    <Compile Include="Parser\INotation.cs" />
+    <Compile Include="Expressions\IExpression.cs" />
+    <Compile Include="Expressions\IOperation.cs" />
     <Compile Include="IOperationSelector.cs" />
-    <Compile Include="IUnaryOperation.cs" />
+    <Compile Include="Parser\IRule.cs" />
+    <Compile Include="Expressions\IUnaryOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

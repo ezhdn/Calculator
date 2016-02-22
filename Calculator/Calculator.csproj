@@ -49,7 +49,9 @@
     <Compile Include="Operations\Sub.cs" />
     <Compile Include="Operations\Mul.cs" />
     <Compile Include="Parser\Notation.cs" />
-    <Compile Include="Parser\NumericNotation.cs" />
+    <Compile Include="Parser\Rules\NumericRule.cs" />
+    <Compile Include="Parser\Rules\OperationRule.cs" />
+    <Compile Include="Parser\Rules\RuleBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
