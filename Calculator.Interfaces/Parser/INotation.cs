@@ -10,10 +10,10 @@ namespace Calculator.Interfaces
     {
         IExpression Parse(IEnumerator<string> expressionTokens);
 
-        INotation AddRule(INotation notation);
+        INotation Add(INotation notation);
 
         INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType);
 
-        INotation AddUnaryOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType);
+        INotation AddUnaryOperation(string[] operations, INotation notation);
     }
 }

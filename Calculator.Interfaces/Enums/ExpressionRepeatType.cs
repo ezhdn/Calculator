@@ -10,8 +10,6 @@ namespace Calculator.Interfaces
     {
         One,
 
-        OneOrMore,
-
         NoneOrMore,
     }
 }

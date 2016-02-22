@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Calculator.Parser.Rules;
 
 namespace Calculator.Parser
 {
@@ -20,24 +21,53 @@ namespace Calculator.Parser
     /// </summary>
     public class Notation : INotation
     {
-        public virtual IExpression Parse(IEnumerator<string> expressionTokens)
+        private readonly IOperationSelector _operationSelector;
+        public Notation(IOperationSelector operationSelector)
         {
-            throw new NotImplementedException();
+            _operationSelector = operationSelector;
         }
 
-        public INotation AddRule(INotation notation)
+        private List<IRule> _rules = new List<IRule>();
+
+        public virtual IExpression Parse(IEnumerator<string> expressionTokens)
         {
-            throw new NotImplementedException();
+            IExpression expression = null;
+            foreach (var rule in _rules)
+            {
+                IExpression outExpression;
+                rule.Accept(expressionTokens, expression, out outExpression);
+                expression = outExpression;
+            }                
+            
+            return expression;
+        }
+
+        public INotation Add(INotation notation)
+        {
+            _rules.Add(new Rule(notation));
+
+            return this;
         }
 
         public INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
         {
-            throw new NotImplementedException();
+            _rules.Add(new OperationRule(_operationSelector, operations, notation, repeatType));
+
+            return this;
         }
 
-        public INotation AddUnaryOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
+        public INotation AddUnaryOperation(string[] operations, INotation notation)
         {
-            throw new NotImplementedException();
+            _rules.Add(new UnaryOperarationRule(_operationSelector, operations, notation));
+
+            return this;
+        }
+
+        public INotation AddNumeric()
+        {
+            _rules.Add(new NumericRule());
+
+            return this;
         }
     }
 }

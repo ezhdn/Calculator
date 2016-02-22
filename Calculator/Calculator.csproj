@@ -50,8 +50,11 @@
     <Compile Include="Operations\Mul.cs" />
     <Compile Include="Parser\Notation.cs" />
     <Compile Include="Parser\Rules\NumericRule.cs" />
-    <Compile Include="Parser\Rules\OperationRule.cs" />
+    <Compile Include="Parser\Rules\Operations\OperationRule.cs" />
+    <Compile Include="Parser\Rules\Operations\OperationRuleBase.cs" />
+    <Compile Include="Parser\Rules\Rule.cs" />
     <Compile Include="Parser\Rules\RuleBase.cs" />
+    <Compile Include="Parser\Rules\Operations\UnaryOperarationRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

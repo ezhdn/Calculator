@@ -73,5 +73,38 @@ namespace Calculator.UnitTests
             expressionTokens.MoveNext();
             Assert.Throws<Exception>(() => operationRule.Accept(expressionTokens, inExp, out outExp));
         }
+
+        [Test]
+        public void UnaryOperationRuleTests()
+        {
+            var operationSelector = MockRepository.GenerateStub<IOperationSelector>();
+            operationSelector.Expect(e => e.GetUnaryOperation("-")).Return(new Sub());
+            operationSelector.Expect(e => e.GetUnaryOperation("+")).Return(new Add());
+
+            var notation = MockRepository.GenerateStub<INotation>();
+            notation.Stub(_ => _.Parse(Arg<IEnumerator<String>>.Is.Anything))
+                .Return(null)
+                .WhenCalled(_ =>
+                {
+                    var tokens = (IEnumerator<String>)_.Arguments[0];
+                    string stringNumber = tokens.Current;
+
+                    decimal number;
+
+                    if (!Decimal.TryParse(stringNumber, out number))
+                        throw new Exception("Ожидался цифровой литерал");
+                    _.ReturnValue = new NumericExpression(number);
+                });
+
+            var operationRule = new UnaryOperarationRule(operationSelector, new[] { "+", "-" }, notation);
+
+            IExpression outExp;
+            IEnumerator<string> expressionTokens = new List<string> { "-", "40" }.GetEnumerator();
+            expressionTokens.MoveNext();
+            bool result = operationRule.Accept(expressionTokens, null, out outExp);
+
+            Assert.AreEqual(result, true);
+            Assert.AreEqual(outExp.Execute(), -40);
+        }
     }
 }

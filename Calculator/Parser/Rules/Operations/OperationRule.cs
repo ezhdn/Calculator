@@ -8,18 +8,13 @@ using Calculator.Interfaces;
 
 namespace Calculator.Parser.Rules
 {
-    public class OperationRule : RuleBase
+    public class OperationRule : OperationRuleBase
     {
-        private readonly IOperationSelector _operationSelector;
-        private readonly string[] _operations;
-        private readonly INotation _notation;
         private readonly ExpressionRepeatType _repeatType;
 
-        public OperationRule(IOperationSelector operationSelector, string[] operations, INotation notation, ExpressionRepeatType repeatType)
+        public OperationRule(IOperationSelector operationSelector, string[] operations, INotation notation,
+            ExpressionRepeatType repeatType) : base(operationSelector, operations, notation)
         {
-            _operationSelector = operationSelector;
-            _operations = operations;
-            _notation = notation;
             _repeatType = repeatType;
         }
 
@@ -35,18 +30,12 @@ namespace Calculator.Parser.Rules
                 resultExp = new BinaryExpression(resultExp, expression, operation);
 
                 expTokens.MoveNext();
+
+                if(_repeatType == ExpressionRepeatType.One)
+                    break;
             }
 
             outExpression = resultExp;
-
-            return true;
-        }
-
-        protected bool CheckOperation(string operationToken)
-        {
-            if (!_operations.Contains(operationToken))
-                throw new Exception(String.Format("Ожидались операции {0}, а не {1}", String.Join(", ", _operations),
-                    operationToken));
 
             return true;
         }
