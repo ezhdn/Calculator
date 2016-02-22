@@ -14,10 +14,5 @@ namespace Calculator.Operations
         {
             return - expression.Execute();
         }
-
-        public int Precedence
-        {
-            get { return 2; }
-        }
     }
 }

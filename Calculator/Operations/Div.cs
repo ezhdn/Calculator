@@ -9,10 +9,5 @@ namespace Calculator.Operations
         {
             return first.Execute() / second.Execute();
         }
-
-        public int Precedence
-        {
-            get { return 4; }
-        }
     }
 }

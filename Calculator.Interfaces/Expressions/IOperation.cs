@@ -9,7 +9,5 @@ namespace Calculator.Interfaces
     public interface IOperation
     {
         decimal Eval(IExpression first, IExpression second);
-
-        int Precedence { get; }
     }
 }
