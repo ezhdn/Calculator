@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Expressions
 {
@@ -14,11 +15,8 @@ namespace Calculator.Expressions
 
         public UnaryExpression(IUnaryOperation operation, IExpression expression)
         {
-            if (operation == null)
-                throw new ArgumentNullException("operation");
-
-            if (expression == null)
-                throw new ArgumentNullException("expression");
+            Guard.ArgumentNotNull(operation, "operation");
+            Guard.ArgumentNotNull(expression, "expression");
 
             _operation = operation; 
             _expression = expression;

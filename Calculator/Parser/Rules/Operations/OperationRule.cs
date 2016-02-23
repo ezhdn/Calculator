@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Calculator.Expressions;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
 {
@@ -15,6 +16,8 @@ namespace Calculator.Parser.Rules
         public OperationRule(IOperationSelector operationSelector, string[] operations, INotation notation,
             ExpressionRepeatType repeatType) : base(operationSelector, operations, notation)
         {
+            Guard.ArgumentNotNull(repeatType, "repeatType");
+
             _repeatType = repeatType;
         }
 

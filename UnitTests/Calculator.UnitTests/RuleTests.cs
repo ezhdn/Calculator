@@ -16,8 +16,28 @@ namespace Calculator.UnitTests
     [TestFixture]
     public class RuleTests
     {
+        private INotation GetNotationStub()
+        {
+            var notation = MockRepository.GenerateStub<INotation>();
+            notation.Stub(_ => _.Parse(Arg<IEnumerator<String>>.Is.Anything))
+                .Return(null)
+                .WhenCalled(_ =>
+                {
+                    var tokens = (IEnumerator<String>) _.Arguments[0];
+                    string stringNumber = tokens.Current;
+
+                    decimal number;
+
+                    if (!Decimal.TryParse(stringNumber, out number))
+                        throw new Exception("Ожидался цифровой литерал");
+                    _.ReturnValue = new NumericExpression(number);
+                });
+
+            return notation;
+        }
+
         [Test]
-        public void ParseNumericExpressionTests()
+        public void ParseNumericExpressionTest()
         {
             var numericRule = new NumericRule();
 
@@ -34,27 +54,16 @@ namespace Calculator.UnitTests
             Assert.Throws<Exception>(() => numericRule.Accept(expressionTokens, null, out result));
         }
 
+
+
         [Test]
-        public void SimpleOperationRuleTests()
+        public void SimpleOperationRuleTest()
         {
             var operationSelector = MockRepository.GenerateStub<IOperationSelector>();
             operationSelector.Expect(e => e.GetOperation("-")).Return(new Sub());
             operationSelector.Expect(e => e.GetOperation("+")).Return(new Add());
 
-            var notation = MockRepository.GenerateStub<INotation>();
-            notation.Stub(_ => _.Parse(Arg<IEnumerator<String>>.Is.Anything))
-                .Return(null)
-                .WhenCalled(_ =>
-                {
-                    var tokens = (IEnumerator<String>) _.Arguments[0];
-                    string stringNumber = tokens.Current;
-
-                    decimal number;
-
-                    if (!Decimal.TryParse(stringNumber, out number))
-                        throw new Exception("Ожидался цифровой литерал");
-                    _.ReturnValue = new NumericExpression(number);
-                });
+            var notation = GetNotationStub();
 
             var operationRule = new OperationRule(operationSelector, new[] {"+", "-"}, notation, ExpressionRepeatType.NoneOrMore);
 
@@ -81,20 +90,7 @@ namespace Calculator.UnitTests
             operationSelector.Expect(e => e.GetUnaryOperation("-")).Return(new Sub());
             operationSelector.Expect(e => e.GetUnaryOperation("+")).Return(new Add());
 
-            var notation = MockRepository.GenerateStub<INotation>();
-            notation.Stub(_ => _.Parse(Arg<IEnumerator<String>>.Is.Anything))
-                .Return(null)
-                .WhenCalled(_ =>
-                {
-                    var tokens = (IEnumerator<String>)_.Arguments[0];
-                    string stringNumber = tokens.Current;
-
-                    decimal number;
-
-                    if (!Decimal.TryParse(stringNumber, out number))
-                        throw new Exception("Ожидался цифровой литерал");
-                    _.ReturnValue = new NumericExpression(number);
-                });
+            var notation = GetNotationStub();
 
             var operationRule = new UnaryOperarationRule(operationSelector, new[] { "+", "-" }, notation);
 
@@ -105,6 +101,38 @@ namespace Calculator.UnitTests
 
             Assert.AreEqual(result, true);
             Assert.AreEqual(outExp.Execute(), -40);
+        }
+
+        [Test]
+        public void BracketsRuleTest()
+        {
+            var inExp = MockRepository.GenerateStub<IExpression>();
+            inExp.Expect(e => e.Execute()).Return(5);
+
+            var notation = GetNotationStub();
+
+            var operationRule = new BracketsRule(notation);
+
+            IExpression outExp;
+
+            IEnumerator<string> expressionTokens = new List<string> {"(", "40", ")" }.GetEnumerator();
+            expressionTokens.MoveNext();
+            bool result = operationRule.Accept(expressionTokens, inExp, out outExp);
+
+            Assert.AreEqual(result, true);
+            Assert.AreEqual(outExp.Execute(), 40);
+
+            expressionTokens = new List<string> { "(", "40"}.GetEnumerator();
+            expressionTokens.MoveNext();
+
+            Assert.AreEqual(result, true);
+            Assert.Throws<Exception>(() => operationRule.Accept(expressionTokens, inExp, out outExp));
+
+            expressionTokens = new List<string> { "40" }.GetEnumerator();
+            expressionTokens.MoveNext();
+
+            Assert.AreEqual(result, true);
+            Assert.Throws<Exception>(() => operationRule.Accept(expressionTokens, inExp, out outExp));
         }
     }
 }

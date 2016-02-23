@@ -22,9 +22,13 @@ namespace Calculator.Parser
     public class Notation : INotation
     {
         private readonly IOperationSelector _operationSelector;
-        public Notation(IOperationSelector operationSelector)
+
+        private readonly bool _isMultiVariant;
+
+        public Notation(IOperationSelector operationSelector, bool isMultivariant)
         {
             _operationSelector = operationSelector;
+            _isMultiVariant = isMultivariant;
         }
 
         private List<IRule> _rules = new List<IRule>();
@@ -35,9 +39,25 @@ namespace Calculator.Parser
             foreach (var rule in _rules)
             {
                 IExpression outExpression;
-                rule.Accept(expressionTokens, expression, out outExpression);
-                expression = outExpression;
-            }                
+
+                if (_isMultiVariant)
+                {
+                    try
+                    {
+                        rule.Accept(expressionTokens, expression, out outExpression);
+                        expression = outExpression;
+                    }
+                    catch { }
+                }
+                else
+                {
+                    rule.Accept(expressionTokens, expression, out outExpression);
+                    expression = outExpression;
+                }
+            }
+            
+            if (expression == null)
+                throw new Exception("Не найдено ни одного правила для разбора сообщения");
             
             return expression;
         }
@@ -59,6 +79,13 @@ namespace Calculator.Parser
         public INotation AddUnaryOperation(string[] operations, INotation notation)
         {
             _rules.Add(new UnaryOperarationRule(_operationSelector, operations, notation));
+
+            return this;
+        }
+
+        public INotation AddBracketRule(INotation notation)
+        {
+            _rules.Add(new BracketsRule(notation));
 
             return this;
         }

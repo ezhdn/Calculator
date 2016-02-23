@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
 {
@@ -13,6 +14,8 @@ namespace Calculator.Parser.Rules
 
         public Rule(INotation notation)
         {
+            Guard.ArgumentNotNull(notation, "notation");
+
             _notation = notation;
         }
 

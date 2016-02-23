@@ -15,5 +15,7 @@ namespace Calculator.Interfaces
         INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType);
 
         INotation AddUnaryOperation(string[] operations, INotation notation);
+
+        INotation AddBracketRule(INotation notation);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Expressions
 {
@@ -15,12 +16,9 @@ namespace Calculator.Expressions
 
         public BinaryExpression(IExpression first, IExpression second, IOperation operation)
         {
-            if (first == null)
-                throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
-            if (operation == null)
-                throw new ArgumentNullException("operation");
+            Guard.ArgumentNotNull(operation, "operation");
+            Guard.ArgumentNotNull(first, "expression");
+            Guard.ArgumentNotNull(second, "second");
 
             _first = first;
             _second = second;
