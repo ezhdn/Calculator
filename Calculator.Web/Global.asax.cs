@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Calculator.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace Calculator.Web
 {
@@ -23,6 +25,8 @@ namespace Calculator.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            UnityContext.Container.RegisterInstance(typeof(IOperationSelector), new OperationsConfiguration());
         }
     }
 }

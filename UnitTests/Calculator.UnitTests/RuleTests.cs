@@ -9,6 +9,7 @@ using Calculator.Interfaces;
 using Calculator.Operations;
 using Calculator.Parser;
 using Calculator.Parser.Rules;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -17,6 +18,12 @@ namespace Calculator.UnitTests
     [TestFixture]
     public class RuleTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            UnityContext.Container.RegisterInstance(typeof(IOperationSelector), new OperationsConfiguration());
+        }
+
         private INotation GetNotationStub()
         {
             var notation = MockRepository.GenerateStub<INotation>();
@@ -68,7 +75,7 @@ namespace Calculator.UnitTests
 
             var notation = GetNotationStub();
 
-            var operationRule = new OperationRule(operationSelector, new[] {"+", "-"}, notation, ExpressionRepeatType.NoneOrMore);
+            var operationRule = new OperationRule(new[] {"+", "-"}, notation, ExpressionRepeatType.NoneOrMore);
 
             var inExp = MockRepository.GenerateStub<IExpression>();
             inExp.Expect(e => e.Execute()).Return(5);
@@ -95,7 +102,7 @@ namespace Calculator.UnitTests
 
             var notation = GetNotationStub();
 
-            var operationRule = new UnaryOperarationRule(operationSelector, new[] { "+", "-" }, notation);
+            var operationRule = new UnaryOperarationRule(new[] { "+", "-" }, notation);
 
             IExpression outExp;
             IEnumerator<string> expressionTokens = new List<string> { "-", "40" }.GetEnumerator();

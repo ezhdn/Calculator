@@ -17,9 +17,9 @@ namespace Calculator
         {
             IOperationSelector operationSelector = new OperationsConfiguration();
 
-            INotation expression = new Notation(operationSelector, false);
-            INotation factor = new Notation(operationSelector, true).AddNumeric().AddBracketRule(expression);
-            INotation term = new Notation(operationSelector, false).Add(factor).AddOperation(new[] { "*", "/" }, factor, ExpressionRepeatType.NoneOrMore);
+            INotation expression = new Notation(false);
+            INotation factor = new Notation(true).AddNumeric().AddBracketRule(expression);
+            INotation term = new Notation(false).Add(factor).AddOperation(new[] { "*", "/" }, factor, ExpressionRepeatType.NoneOrMore);
             expression.Add(term).AddOperation(new[] { "+", "-" }, term, ExpressionRepeatType.NoneOrMore);
 
             expressionNotation = expression;

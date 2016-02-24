@@ -16,8 +16,8 @@ namespace Calculator.Parser.Rules
     {
         private readonly ExpressionRepeatType _repeatType;
 
-        public OperationRule(IOperationSelector operationSelector, string[] operations, INotation notation,
-            ExpressionRepeatType repeatType) : base(operationSelector, operations, notation)
+        public OperationRule(string[] operations, INotation notation,
+            ExpressionRepeatType repeatType) : base(operations, notation)
         {
             Guard.ArgumentNotNull(repeatType, "repeatType");
 

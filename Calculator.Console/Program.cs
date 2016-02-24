@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Calculator.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace Calculator.Console
 {
@@ -12,6 +14,7 @@ namespace Calculator.Console
         static void Main(string[] args)
         {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            UnityContext.Container.RegisterInstance(typeof(IOperationSelector), new OperationsConfiguration());
 
             var calculator = new Calc();
             bool runned = true;

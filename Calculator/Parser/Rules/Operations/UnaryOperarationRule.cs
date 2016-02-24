@@ -13,8 +13,8 @@ namespace Calculator.Parser.Rules
     /// </summary>
     public class UnaryOperarationRule : OperationRuleBase
     {
-        public UnaryOperarationRule(IOperationSelector operationSelector, string[] operations, INotation notation)
-            : base(operationSelector, operations, notation)
+        public UnaryOperarationRule(string[] operations, INotation notation)
+            : base(operations, notation)
         {
         }
 

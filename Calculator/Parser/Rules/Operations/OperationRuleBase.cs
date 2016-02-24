@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
@@ -14,13 +15,12 @@ namespace Calculator.Parser.Rules
         protected readonly string[] _operations;
         protected readonly INotation _notation;
 
-        protected OperationRuleBase(IOperationSelector operationSelector, string[] operations, INotation notation)
+        protected OperationRuleBase(string[] operations, INotation notation)
         {
-            Guard.ArgumentNotNull(operationSelector, "operationSelector");
             Guard.ArgumentNotNull(operations, "operations");
             Guard.ArgumentNotNull(notation, "notation");
 
-            _operationSelector = operationSelector;
+            _operationSelector = UnityContext.Container.Resolve<IOperationSelector>();
             _operations = operations;
             _notation = notation;
         }   

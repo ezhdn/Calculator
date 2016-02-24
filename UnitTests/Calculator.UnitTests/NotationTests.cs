@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
 using Calculator.Parser;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
 namespace Calculator.UnitTests
@@ -14,14 +15,20 @@ namespace Calculator.UnitTests
     //Тут больше интеграционный тест, чем модульный
     public class NotationTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            UnityContext.Container.RegisterInstance(typeof (IOperationSelector), new OperationsConfiguration());
+        }
+
         [TestCase("5+6-4+9", 16)]
         [TestCase("5-6+4-9", -6)] 
         public void SimpleNatationTest(string expressionString, decimal result)
         {
             IOperationSelector selector = new OperationsConfiguration();
 
-            INotation number = new Notation(selector, false).AddNumeric();
-            INotation expression = new Notation(selector, false);
+            INotation number = new Notation(false).AddNumeric();
+            INotation expression = new Notation(false);
 
             expression.Add(number).AddOperation(new[] {"+", "-"}, number, ExpressionRepeatType.NoneOrMore);
 
@@ -43,9 +50,9 @@ namespace Calculator.UnitTests
 
             IOperationSelector selector = new OperationsConfiguration();
 
-            INotation expression = new Notation(selector, false);
-            INotation factor = new Notation(selector, true).AddNumeric().AddBracketRule(expression);
-            INotation term = new Notation(selector, false).Add(factor).AddOperation(new[] {"*", "/"}, factor, ExpressionRepeatType.NoneOrMore);
+            INotation expression = new Notation(false);
+            INotation factor = new Notation(true).AddNumeric().AddBracketRule(expression);
+            INotation term = new Notation(false).Add(factor).AddOperation(new[] {"*", "/"}, factor, ExpressionRepeatType.NoneOrMore);
             expression.Add(term).AddOperation(new[] { "+", "-" }, term, ExpressionRepeatType.NoneOrMore);
 
             var expressionTokens = new Calc().TokenizeExpression(expressionString).GetEnumerator();

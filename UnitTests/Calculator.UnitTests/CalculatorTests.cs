@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Calculator.Interfaces;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
 namespace Calculator.UnitTests
@@ -12,6 +13,12 @@ namespace Calculator.UnitTests
     [TestFixture]
     public class CalculatorTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            UnityContext.Container.RegisterInstance(typeof(IOperationSelector), new OperationsConfiguration());
+        }
+
         [TestCase("122+20*(43-(232/2323)/4)", 15)]
         [TestCase("1+5", 3)]
         [TestCase("12 2  +   20", 3)]

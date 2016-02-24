@@ -21,13 +21,10 @@ namespace Calculator.Parser
     /// </summary>
     public class Notation : INotation
     {
-        private readonly IOperationSelector _operationSelector;
-
         private readonly bool _isMultiVariant;
 
-        public Notation(IOperationSelector operationSelector, bool isMultivariant)
+        public Notation(bool isMultivariant)
         {
-            _operationSelector = operationSelector;
             _isMultiVariant = isMultivariant;
         }
 
@@ -91,7 +88,7 @@ namespace Calculator.Parser
         /// </summary>
         public INotation AddOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
         {
-            _rules.Add(new OperationRule(_operationSelector, operations, notation, repeatType));
+            _rules.Add(new OperationRule(operations, notation, repeatType));
 
             return this;
         }
@@ -101,7 +98,7 @@ namespace Calculator.Parser
         /// </summary>
         public INotation AddUnaryOperation(string[] operations, INotation notation)
         {
-            _rules.Add(new UnaryOperarationRule(_operationSelector, operations, notation));
+            _rules.Add(new UnaryOperarationRule(operations, notation));
 
             return this;
         }
