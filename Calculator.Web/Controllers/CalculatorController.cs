@@ -10,15 +10,13 @@ namespace Calculator.Web.Controllers
     public class CalculatorController : ApiController
     {
         [HttpGet]
-        [Route("eval/{expression}")]
-        public IHttpActionResult Eval(int expression)
+        public IHttpActionResult Eval(string expression)
         {
             var calculator = new Calc();
 
             try
             {
-                //return Ok(calculator.Eval(expression));
-                return Ok();
+                return Ok(calculator.Eval(expression));
             }
             catch(Exception ex)
             {

@@ -25,7 +25,7 @@
 
     function eval() {
         var expression = $('#expression').val();
-        $.getJSON(uri + '/' + expression)
+        $.getJSON(uri + '?expression=' + encodeURIComponent(expression))
             .done(function(data) {
                 $('#result').text('Результат: ' + data);
             })
