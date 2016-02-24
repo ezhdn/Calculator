@@ -27,11 +27,7 @@ namespace Calculator.Parser.Rules
 
         protected bool CheckOperation(string operationToken)
         {
-            if (!_operations.Contains(operationToken))
-                throw new Exception(String.Format("Ожидались операции {0}, а не {1}", String.Join(", ", _operations),
-                    operationToken));
-
-            return true;
+            return _operations.Contains(operationToken);
         }
     }
 }

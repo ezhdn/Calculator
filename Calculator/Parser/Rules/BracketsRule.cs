@@ -8,6 +8,9 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Правило для разбора выражений в скобках
+    /// </summary>
     public class BracketsRule : RuleBase
     {
         private readonly INotation _notation;
@@ -25,7 +28,6 @@ namespace Calculator.Parser.Rules
             {
                 MoveNext(expTokens, true);
                 outExpression = _notation.Parse(expTokens);
-                MoveNext(expTokens, true);
                  
                 if (expTokens.Current != ")")
                     throw new Exception("Должна быть закрывающая скобка");

@@ -35,33 +35,50 @@ namespace Calculator.Parser
 
         public virtual IExpression Parse(IEnumerator<string> expressionTokens)
         {
-            IExpression expression = null;
-            foreach (var rule in _rules)
+            if (!_isMultiVariant)
             {
-                IExpression outExpression;
+                IExpression expression = null;
 
-                if (_isMultiVariant)
+                foreach (var rule in _rules)
                 {
+                    IExpression outExpression;
+
+                    if (rule.Accept(expressionTokens, expression, out outExpression))
+                        expression = outExpression;
+                }
+
+                return expression;
+            }
+            else
+            {
+                IExpression expression = null;
+                foreach (var rule in _rules)
+                {
+                    IExpression outExpression;
+
                     try
                     {
-                        rule.Accept(expressionTokens, expression, out outExpression);
-                        expression = outExpression;
+                        bool acceptResult = rule.Accept(expressionTokens, expression, out outExpression);
+
+                        if (acceptResult)
+                        {
+                            expression = outExpression;
+                            break;
+                        }
                     }
-                    catch { }
+                    catch{}
                 }
-                else
-                {
-                    rule.Accept(expressionTokens, expression, out outExpression);
-                    expression = outExpression;
-                }
+
+                if (expression == null)
+                    throw new Exception("Не найдено ни одного правила для разбора сообщения");
+
+                return expression;
             }
-            
-            if (expression == null)
-                throw new Exception("Не найдено ни одного правила для разбора сообщения");
-            
-            return expression;
         }
 
+        /// <summary>
+        /// Добавление обычного правила
+        /// </summary>
         public INotation Add(INotation notation)
         {
             _rules.Add(new Rule(notation));
@@ -69,13 +86,19 @@ namespace Calculator.Parser
             return this;
         }
 
-        public INotation MayBeOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
+        /// <summary>
+        /// Добавление правила с операциями
+        /// </summary>
+        public INotation AddOperation(string[] operations, INotation notation, ExpressionRepeatType repeatType)
         {
             _rules.Add(new OperationRule(_operationSelector, operations, notation, repeatType));
 
             return this;
         }
 
+        /// <summary>
+        /// Добавление унарной операции в правило
+        /// </summary>
         public INotation AddUnaryOperation(string[] operations, INotation notation)
         {
             _rules.Add(new UnaryOperarationRule(_operationSelector, operations, notation));
@@ -83,6 +106,9 @@ namespace Calculator.Parser
             return this;
         }
 
+        /// <summary>
+        /// Добавление выражения под скобками
+        /// </summary>
         public INotation AddBracketRule(INotation notation)
         {
             _rules.Add(new BracketsRule(notation));
@@ -90,6 +116,10 @@ namespace Calculator.Parser
             return this;
         }
 
+        /// <summary>
+        /// Добавление числового выражения
+        /// </summary>
+        /// <returns></returns>
         public INotation AddNumeric()
         {
             _rules.Add(new NumericRule());

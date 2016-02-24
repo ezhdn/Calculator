@@ -7,6 +7,9 @@ using Calculator.Interfaces;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Базовое правило для опеределения грамматик
+    /// </summary>
     public abstract class RuleBase : IRule
     {
         public abstract bool Accept(IEnumerator<string> expTokens, IExpression inExpression,

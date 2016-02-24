@@ -7,7 +7,11 @@ using Calculator.Interfaces;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Expressions
+
 {
+    /// <summary>
+    /// Унарное выражение
+    /// </summary>
     public class UnaryExpression : IExpression
     {
         private readonly IExpression _expression;

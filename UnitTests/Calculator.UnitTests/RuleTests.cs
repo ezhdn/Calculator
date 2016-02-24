@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Calculator.Expressions;
 using Calculator.Interfaces;
@@ -31,6 +32,8 @@ namespace Calculator.UnitTests
                     if (!Decimal.TryParse(stringNumber, out number))
                         throw new Exception("Ожидался цифровой литерал");
                     _.ReturnValue = new NumericExpression(number);
+
+                    tokens.MoveNext();
                 });
 
             return notation;
@@ -39,9 +42,11 @@ namespace Calculator.UnitTests
         [Test]
         public void ParseNumericExpressionTest()
         {
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             var numericRule = new NumericRule();
 
-            IEnumerator<String> expressionTokens = new List<string>() { "34", "98984", "dfdsfdf" }.GetEnumerator();
+            IEnumerator<String> expressionTokens = new List<string>() { "34", "98984.5", "dfdsfdf" }.GetEnumerator();
 
             expressionTokens.MoveNext();
             IExpression result;
@@ -53,8 +58,6 @@ namespace Calculator.UnitTests
 
             Assert.Throws<Exception>(() => numericRule.Accept(expressionTokens, null, out result));
         }
-
-
 
         [Test]
         public void SimpleOperationRuleTest()

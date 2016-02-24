@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
+    /// <summary>
+    /// Интерфейс унарной операции
+    /// </summary>
     public interface IUnaryOperation
     {
         decimal Eval(IExpression expression);

@@ -7,6 +7,9 @@ using Calculator.Interfaces;
 
 namespace Calculator.Expressions
 {
+    /// <summary>
+    /// Числовое выражение
+    /// </summary>
     public class NumericExpression : IExpression
     {
         private readonly decimal _value;

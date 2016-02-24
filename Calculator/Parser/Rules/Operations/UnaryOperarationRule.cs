@@ -8,6 +8,9 @@ using Calculator.Interfaces;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Правило для определения унарной операции над выражением
+    /// </summary>
     public class UnaryOperarationRule : OperationRuleBase
     {
         public UnaryOperarationRule(IOperationSelector operationSelector, string[] operations, INotation notation)
@@ -23,8 +26,6 @@ namespace Calculator.Parser.Rules
             IExpression expression = _notation.Parse(expTokens);
 
             outExpression = new UnaryExpression(operation, expression);
-
-            expTokens.MoveNext();
 
             return true;
         }

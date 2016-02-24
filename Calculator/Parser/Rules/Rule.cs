@@ -8,6 +8,9 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Обычное правило, без операций
+    /// </summary>
     public class Rule : IRule
     {
         private readonly INotation _notation;

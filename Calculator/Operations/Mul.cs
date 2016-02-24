@@ -4,6 +4,9 @@ using Calculator.Interfaces;
 
 namespace Calculator.Operations
 {
+    /// <summary>
+    /// Операция умножения
+    /// </summary>
     public class Mul : IOperation
     {
         decimal IOperation.Eval(IExpression first, IExpression second)

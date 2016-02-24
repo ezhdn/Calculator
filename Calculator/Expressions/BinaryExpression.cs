@@ -8,6 +8,9 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Expressions
 {
+    /// <summary>
+    /// Бинарное выражение
+    /// </summary>
     public class BinaryExpression : IExpression
     {
         private readonly IExpression _first;

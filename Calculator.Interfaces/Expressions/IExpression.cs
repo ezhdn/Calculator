@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
+    /// <summary>
+    /// Интерфейс выражения, может быть как узлом так и листом дерева разбора
+    /// </summary>
     public interface IExpression
     {
         decimal Execute();

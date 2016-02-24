@@ -9,6 +9,9 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Правило содержащая операции над выражениями. Обычно используется с другими правилами.
+    /// </summary>
     public class OperationRule : OperationRuleBase
     {
         private readonly ExpressionRepeatType _repeatType;
@@ -31,8 +34,6 @@ namespace Calculator.Parser.Rules
                 IExpression expression = _notation.Parse(expTokens);
 
                 resultExp = new BinaryExpression(resultExp, expression, operation);
-
-                expTokens.MoveNext();
 
                 if(_repeatType == ExpressionRepeatType.One)
                     break;

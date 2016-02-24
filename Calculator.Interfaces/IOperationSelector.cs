@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
+    /// <summary>
+    /// Интерфейс получения описания операции по строковому литералу
+    /// </summary>
     public interface IOperationSelector
     {
         IOperation GetOperation(String operationToken);

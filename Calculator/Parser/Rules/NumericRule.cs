@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ using Calculator.Interfaces;
 
 namespace Calculator.Parser.Rules
 {
+    /// <summary>
+    /// Правило для разбора числовых выражений
+    /// </summary>
     public class NumericRule : RuleBase
     {
         public override bool Accept(IEnumerator<string> expTokens, IExpression inExpression, out IExpression outExpression)
