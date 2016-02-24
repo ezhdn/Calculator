@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Calculator</title>
+    <style>
+        #expression {
+            width: 400px;
+        }
+        #result {
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>Введите выражение для вычисления </p>
+        <input type="text" id="expression" size="5" size="480" />
+        <input type="button" value="Вычислить" onclick="eval();" />
+        <p id="result" />
+    </div>
+
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var uri = 'api/calculator/eval';
+
+    function eval() {
+        var expression = $('#expression').val();
+        $.getJSON(uri + '/' + expression)
+            .done(function(data) {
+                $('#result').text('Результат: ' + data);
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                $('#result').text('Ошибка: ' + err);
+            });
+    }
+</script>
+</body>
+</html>
