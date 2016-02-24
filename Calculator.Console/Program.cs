@@ -26,9 +26,15 @@ namespace Calculator.Console
                     runned = false;
                 else
                 {
-                    decimal result = calculator.Eval(expression);
-
-                    System.Console.WriteLine(String.Format("Результат: {0}", result));
+                    try
+                    {
+                        decimal result = calculator.Eval(expression);
+                        System.Console.WriteLine("Результат: {0}", result);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Console.WriteLine("Ошибка: {0}", ex.Message);
+                    }
                 }
             }
         }
